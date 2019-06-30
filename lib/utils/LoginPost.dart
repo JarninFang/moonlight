@@ -1,18 +1,21 @@
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class RegisterPost {
+class LoginPost
+ {
   final String username;
   final String password;
-  final String email;
 
-  RegisterPost ({this.username, this.password, this.email});
+  LoginPost
+   ({this.username, this.password});
 
-  factory RegisterPost.fromJson(Map<String, dynamic> json) {
-    return RegisterPost(
+  factory LoginPost
+  .fromJson(Map<String, dynamic> json) {
+    return LoginPost
+    (
       username: json['username'],
       password: json['password'],
-      email: json['email']
     );
   }
 
@@ -20,19 +23,21 @@ class RegisterPost {
     var map = new Map<String, dynamic>();
     map["username"] = username;
     map["password"] = password;
-    map["email"] = email;
- 
+
     return map;
   }
 
-  Future<RegisterPost> createPost(String url, {Map body}) async {
+  Future<LoginPost> createPost(String url, {Map body}) async {
       var jsonBody = json.encode(body);
       print(jsonBody);
       return http.post(url, headers: {"Content-Type": "application/json"},
                             body: jsonBody).then((http.Response response) {
         final int statusCode = response.statusCode;
-        if (statusCode == 200) {
-          return RegisterPost.fromJson(json.decode(response.body));
+        print(response.body);
+        print(response.statusCode);
+        if (statusCode == 200 || statusCode == 401) {
+          return LoginPost
+          .fromJson(json.decode(response.body));
         } else {
           throw new Exception("Error while fetching data");
         }

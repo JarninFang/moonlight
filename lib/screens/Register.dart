@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/button.dart';
-import 'package:http/http.dart' as http;
 import '../utils/RegisterPost.dart';
-import 'dart:convert';
 
 class RegisterPage extends StatefulWidget {
   
@@ -12,66 +10,91 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  RegisterPost registerPostRequest;
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  String _validateUsername (String value) {
+    if (value.isEmpty) {
+      return 'Enter username';
+    }
+  }
+
+  String _validatePassword (String value) {
+    if (value.isEmpty) {
+      return 'Enter password';
+    }
+  }
+
+  String _validateEmail (String value) {
+    if (value.isEmpty) {
+      return 'Enter email';
+    }
+  }
+
+  void _sendRequest() {
+    if (_formKey.currentState.validate()) {
+      registerPostRequest = new RegisterPost(username: usernameController.text, password: passwordController.text, email: emailController.text);
+      registerPostRequest.createPost('https://mysterious-atoll-59667.herokuapp.com/api/register', body: registerPostRequest.toMap());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    Future<http.Response> fetchPost() async {
-      final response = await http.post('https://mysterious-atoll-59667.herokuapp.com/api/register');
-
-      print(response.body.toString());
-    }
-    Future<RegisterPost> createPost(String url, {Map body}) async {
-      var newBody = json.encode(body);
-      return http.post(url, headers: {"Content-Type": "application/json"},
-                            body: newBody).then((http.Response response) {
-        final int statusCode = response.statusCode;
-        if (statusCode == 200) {
-          return RegisterPost.fromJson(json.decode(response.body));
-        } else {
-          throw new Exception("Error while fetching data");
-        }
-      });
-    }
-    RegisterPost newPost = new RegisterPost(username: "test", password: "test", email: "test");
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Register Page'),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width*(0.75),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Enter username'
+      body: Form(
+        key: _formKey,
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width*(0.75),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter username'
+                  ),
+                  validator: _validateUsername,
+                  controller: usernameController,
                 ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width*(0.75),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Enter password'
+              Container(
+                width: MediaQuery.of(context).size.width*(0.75),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter password'
+                  ),
+                  validator: _validatePassword,
+                  controller: passwordController,
                 ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width*(0.75),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Enter email'
+              Container(
+                width: MediaQuery.of(context).size.width*(0.75),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter email'
+                  ),
+                  validator: _validateEmail,
+                  controller: emailController,
                 ),
               ),
-            ),
-            SizedBox(height: 70),
-            Button(() async => createPost('https://mysterious-atoll-59667.herokuapp.com/api/register', body: newPost.toMap()), style, 'Create Account')
-          ],
-          
-        )
-        
+              SizedBox(height: 70),
+              Button(() => _sendRequest(), style, 'Create Account')
+            ],
+          )
+        ),
       ),
     );
   }
