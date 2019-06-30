@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../widgets/button.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   
   @override
@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: Text('Register Page'),
       ),
       body: Center(
         child: Column(
@@ -30,8 +30,13 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Enter password'
               ),
             ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Enter email'
+              ),
+            ),
             SizedBox(height: 70),
-            Button(() => {}, style, 'Confirm')
+            Button(() => {}, style, 'Create Account')
           ],
           
         )

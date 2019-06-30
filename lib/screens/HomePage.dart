@@ -22,6 +22,13 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
+    _onRegisterButtonPress() {
+      Navigator.pushNamed(
+        context,
+        '/Register'
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -35,7 +42,9 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             SizedBox(height: 70.0),
-            Button(() => _onLoginButtonPress(), style)
+            Button(() => _onRegisterButtonPress(), style, 'Register'),
+            SizedBox(height: 70.0),
+            Button(() => _onLoginButtonPress(), style, 'Login')
           ],
         ),
 
