@@ -20,14 +20,20 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter username'
+            Container(
+              width: MediaQuery.of(context).size.width*(0.75),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter username'
+                ),
               ),
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter password'
+            Container(
+              width: MediaQuery.of(context).size.width*(0.75),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter password'
+                ),
               ),
             ),
             SizedBox(height: 70),
