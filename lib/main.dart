@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/HomePage.dart';
+import 'screens/WelcomePage.dart';
 import 'screens/Login.dart';
 import 'screens/Register.dart';
 
@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   var routes = <String, WidgetBuilder>{
     "/Login": (BuildContext context) => new LoginPage(),
     "/Register": (BuildContext context) => new RegisterPage(),
-    "/HomePage": (BuildContext context) => new HomePage()
+    "/WelcomePage": (BuildContext context) => new WelcomePage()
   };
 
   @override
@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Moonlight'),
+      home: WelcomePage(title: 'Moonlight'),
       routes: routes
     );
   }
